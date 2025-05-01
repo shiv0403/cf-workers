@@ -2,6 +2,7 @@ import { Worker } from "bullmq";
 
 import { redisConnection } from "../../redis.js";
 
+const redisUrl = new URL(redisConnection);
 const worker = new Worker(
   "lockout-jobs",
   async (job) => {
@@ -36,8 +37,18 @@ const worker = new Worker(
       }
     }
   },
-  { connection: redisConnection }
+  {
+    connection: {
+      family: 0,
+      host: redisUrl.hostname,
+      port: redisUrl.port,
+      username: redisUrl.username,
+      password: redisUrl.password,
+    },
+  }
 );
+
+console.log({ worker });
 
 worker.on("completed", (job) => {
   console.log(`Job ${job.id} completed successfully`);
