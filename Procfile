@@ -1,1 +1,1 @@
-web: npm start 
+worker: pm2-runtime src/index.js --name cf-worker

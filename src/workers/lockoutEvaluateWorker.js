@@ -48,8 +48,6 @@ const worker = new Worker(
   }
 );
 
-console.log({ worker });
-
 worker.on("completed", (job) => {
   console.log(`Job ${job.id} completed successfully`);
 });
