@@ -2,7 +2,6 @@ import { Worker } from "bullmq";
 
 import { redisConnection } from "../../redis.js";
 
-const redisUrl = new URL(redisConnection);
 const worker = new Worker(
   "lockout-jobs",
   async (job) => {
@@ -38,13 +37,7 @@ const worker = new Worker(
     }
   },
   {
-    connection: {
-      family: 0,
-      host: redisUrl.hostname,
-      port: redisUrl.port,
-      username: redisUrl.username,
-      password: redisUrl.password,
-    },
+    connection: redisConnection,
   }
 );
 
