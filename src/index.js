@@ -12,6 +12,7 @@ const __dirname = dirname(__filename);
 const jobsPath = join(__dirname, "workers");
 const jobFiles = readdirSync(jobsPath);
 
-jobFiles.forEach((file) => {
-  import(join(jobsPath, file));
-});
+console.log("Importing workers...");
+const imports = jobFiles.map((file) => import(join(jobsPath, file)));
+await Promise.all(imports);
+console.log("All workers loaded");
